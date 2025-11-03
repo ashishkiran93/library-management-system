@@ -25,6 +25,7 @@ public class BookController {
 
     @PostMapping("/book")
     private void addNewBook(@RequestBody Book book){
+      log.info("Adding new books to DB");
       bookService.addBook(book);
       log.info("Book with title {} added sucessfully",book.getTitle());
     }
@@ -38,7 +39,7 @@ public class BookController {
             @RequestParam(defaultValue = "title") String sortedBy,
             @RequestParam(defaultValue = "asc") String sortDir
             ){
-
+        log.info("Fetching books with request parameters");
         //Removing "page","size",sortedBy",sortDir"
         Map<String,String> filters = allParameters
                 .entrySet().stream()
@@ -58,12 +59,14 @@ public class BookController {
 
     @PutMapping("/book/{id}")
     ResponseEntity<String> updateBookDetails(@RequestBody Book bookWithNewData, @PathVariable("id") long id ){
+    log.info("Fetching books by Id");
     bookService.updateBook(bookWithNewData,id);
     return ResponseEntity.ok("Data updated");
     }
 
     @DeleteMapping("book/{id}")
     ResponseEntity<String> deleteBook(@PathVariable("id") long id){
+      log.info("Deleting books with given id");
       bookService.deleteBook(id);
       return ResponseEntity.ok("book deleted");
     }
